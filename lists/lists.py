@@ -126,6 +126,49 @@ def find_the_most_frequent_element_in_list(data: list) -> list:
     return [key for key, value in frequency_dict.items() if value == max_freq]
 
 
+@check_list
+def detect_sequence(data: list) -> int:
+    if (
+        len(set(data)) < 2
+    ):  # Handle edge case where there's not enough data to determine a step
+        return 0
+
+    dict_diferences = {}
+    sorted_data = sorted(set(data))
+
+    for n in range(1, len(sorted_data)):
+        diff = sorted_data[n] - sorted_data[n - 1]
+        dict_diferences[diff] = dict_diferences.get(diff, 0) + 1
+
+    return max(dict_diferences, key=dict_diferences.get)
+
+
+@check_list
+def find_missing_number(data: list) -> list:
+    step = detect_sequence(data)
+    if step == 0:
+        return []  # If no valid sequence is detected, return an empty list
+
+    sorted_data = sorted(set(data))
+
+    return [
+        n
+        for n in range(sorted_data[0], sorted_data[-1] + step, step)
+        if n not in sorted_data
+    ]
+
+
+@check_list
+def remove_no_in_sequence(data: list, step: int) -> list:
+    if step == 0 or not data:
+        return []  # Avoid errors when step is 0 or data is empty
+
+    sorted_data = sorted(set(data))
+    start = sorted_data[0]  # Define the sequence start point dynamically
+
+    return sorted(set(n for n in data if (n - start) % step == 0))
+
+
 #############################################################################################################################
 print(" \n============== Create a list of five fruits. ==============\n ")
 
@@ -417,5 +460,70 @@ dict_list = {key: value for key in keys for value in values}
 print(
     "The resulted dictionary from keys {} and values {} is ====> {}".format(
         keys, values, dict_list
+    )
+)
+
+print(" \n============== Find the sequence in the list ==============\n ")
+
+numbers = [1, 4, 6, 2, 7, 1, 9, 5, 8, 0]
+
+print(
+    "The sequence is the list: {} is ====> in {} steps".format(
+        numbers, detect_sequence(numbers)
+    )
+)
+
+numbers = [0, 6, 4, 6, 8, 0, 3, 10]
+
+print(
+    "The sequence is the list: {} is ====> in {} steps".format(
+        numbers, detect_sequence(numbers)
+    )
+)
+
+
+print(" \n============== Remove elements no in sequence ==============\n ")
+
+numbers = [0, 6, 6, 8, 0, 3, 10, 12]
+step = detect_sequence(numbers)
+numbers_sequenced = remove_no_in_sequence(numbers, step)
+print(
+    "From list {} the list sorted and in sequence ({}) is ===> {}".format(
+        numbers, step, numbers_sequenced
+    )
+)
+
+
+print(" \n============== Find the missing number in sequence ==============\n ")
+
+numbers = [1, 4, 6, 2, 7, 1, 9, 5, 8, 0]
+
+print(
+    "The missing numbers in list: {} are ===> {}".format(
+        numbers, find_missing_number(numbers)
+    )
+)
+
+print(
+    "The missing numbers in list: {} are ===> {}".format(
+        numbers_sequenced, find_missing_number(numbers_sequenced)
+    )
+)
+
+print(
+    " \n============== Detect / Sequence / Remove no in sequence / Get missing numbers in sequence ==============\n "
+)
+
+numbers = [5, 7, 10, 15, 22, 30, 35]
+step = detect_sequence(numbers)
+numbers_sequenced = remove_no_in_sequence(numbers, step)
+print(
+    "From list {} the list sorted and in sequence ({}) are ===> {}".format(
+        numbers, step, numbers_sequenced
+    )
+)
+print(
+    "The missing numbers in list: {} is ===> {}".format(
+        numbers_sequenced, find_missing_number(numbers_sequenced)
     )
 )
