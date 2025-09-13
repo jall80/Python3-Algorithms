@@ -47,18 +47,15 @@ def change_value(data: list, value: str, new_value: str):
     else:
         data[find_value_index(data, value)] = new_value
 
-
 @check_list
 def is_in_list(data: list, value: str) -> bool:
     return value in data
-
 
 @check_list
 def reverse_list(data: list, step: int) -> list:
     for n in range(0, int(len(data) / 2), step):
         data[n], data[-1 - n] = data[-1 - n], data[n]
     return data
-
 
 @check_list
 def remove_duplicates_from_list(data: list) -> list:
@@ -210,7 +207,7 @@ print(" \n============== Reverse a list ==============\n ")
 # Simplest method
 reversed_list = fruits[::-1]
 print("The reversed list is: {}".format(reversed_list))
-
+  
 # Working in algorim
 print("The reversed list is: {}".format(reverse_list(fruits, 1)))
 
@@ -270,6 +267,10 @@ numbers = [0, 10, 20, 30, 40, 50, 60, 70, 10, 40, 50, 50]
 numbers = remove_duplicates_from_listOP(numbers)
 
 print("The list without duplicate elements is: {}".format(numbers))
+
+numbers = [0, 10, 20, 30, 40, 50, 60, 70, 10, 40, 50, 50]
+
+print("with SET The list without duplicate elements is: {}".format(list(set(numbers))))
 
 print(" \n============== Find the maximum and minimum in a list ==============\n ")
 
